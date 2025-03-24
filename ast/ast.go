@@ -1,8 +1,8 @@
 package ast
 
 import (
-	"monkey/token"
 	"bytes"
+	"monkey/token"
 )
 
 type Node interface {
@@ -37,13 +37,13 @@ func (p *Program) TokenLiteral() string {
 	if len(p.Statements) > 0 {
 		return p.Statements[0].TokenLiteral()
 	} else {
-		return""
+		return ""
 	}
 }
 
 type LetStatement struct {
 	Token token.Token // the token.LET token
-	Name *Identifier
+	Name  *Identifier
 	Value Expression
 }
 
@@ -81,7 +81,7 @@ func (es *ExpressionStatement) String() string {
 	if es.Expression != nil {
 		return es.Expression.String()
 	}
-	return""
+	return ""
 }
 
 func (i *Identifier) String() string { return i.Value }
@@ -91,7 +91,7 @@ func (i *Identifier) expressionNode() {}
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
 
 type ReturnStatement struct {
-	Token token.Token
+	Token       token.Token
 	ReturnValue Expression
 }
 
@@ -100,10 +100,19 @@ func (rs *ReturnStatement) statementNode() {}
 func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
 
 type ExpressionStatement struct {
-	Token token.Token // the first token of the expression
+	Token      token.Token // the first token of the expression
 	Expression Expression
 }
 
 func (es *ExpressionStatement) statementNode() {}
 
 func (es *ExpressionStatement) TokenLiteral() string { return es.Token.Literal }
+
+type IntegerLiteral struct {
+	Token token.Token
+	Value int64
+}
+
+func (il *IntegerLiteral) expressionNode()      {}
+func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
+func (il *IntegerLiteral) String() string       { return il.Token.Literal }
